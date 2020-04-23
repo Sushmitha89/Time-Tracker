@@ -1,0 +1,87 @@
+
+<style>
+#customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+<div md-line>
+<form [formGroup]="activityForm" (ngSubmit)="onSubmit()" *ngIf="show">
+  <div class="form-group">
+        <label for="activity">Description</label>
+        <input type="text" formControlName="activity" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.activity.errors }" />
+        <div *ngIf="submitted && f.activity.errors" class="invalid-feedback">
+            <div *ngIf="f.activity.errors.required">Activity is required</div>
+        </div>
+    </div>
+     <div class="form-group">
+        <button  class="btn btn-primary">
+          End Timer
+        </button>          
+    </div>
+    </form>      
+     <button class="btn btn-primary" type="button" (click)="doActionBasicTimer('start')">
+         Start Timer
+         </button> 
+     
+   <h6>Timer</h6> <h4><cd-timer #basicTimer class="bootstrap-timer"></cd-timer>   </h4>
+    <h3>Time Frames </h3>
+  
+<table id="customers" border="2">
+      <tr>
+         <th>Action</th>
+          <th>Days</th>
+              <th>Hours</th>
+                  <th>Minutes</th>
+                      <th>Seconds</th>  
+                         <th>Activity</th>  
+      </tr>
+      <!-- BIND ARRAY TO TABLE -->
+      <tr *ngFor="let val of finalData; let i = index">   
+             <td><button (click)="deleteTimeFrame(i)">Delete</button></td> 
+            <td>{{ val.days}}</td>
+            <td>{{ val.hours}}</td>
+            <td>{{ val.minutes}}</td>
+            <td>{{ val.seconds}}</td>
+            <td>{{ val.activityDesctiption}}</td>
+      </tr>
+  </table>
+ 
+</div>
+
+<div class="chart-wrapper">
+    <canvas baseChart 
+        [datasets]="lineChartData" 
+        [labels]="lineChartLabels" 
+        [options]="lineChartOptions"
+        [colors]="lineChartColors" 
+        [legend]="lineChartLegend" 
+        [chartType]="lineChartType" 
+        [plugins]="lineChartPlugins">
+    </canvas>
+</div> 
+
+<!--{{finalData}}
+<line-chart
+*ngIf="finalData.length"
+  [finalData]="finalData">
+</line-chart> -->
+
